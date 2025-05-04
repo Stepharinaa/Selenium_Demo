@@ -1,4 +1,5 @@
 const { Builder, By, Key } = require("selenium-webdriver")
+const assert = require("assert")
 
 async function example() {
 
@@ -10,6 +11,14 @@ async function example() {
     await driver.get("https://lambdatest.github.io/sample-todo-app/")
     // Add a todo/task
     await driver.findElement(By.id("sampletodotext")).sendKeys("Walk the doggo", Key.RETURN)
+
+    // Assert
+    const toDoText = await driver.findElement(By.xpath("//li[last()]")).getText().then(function (value) {
+        return value
+    })
+
+    assert.strictEqual(toDoText, "Walk the doggo")
+
 
     // Close browser
     await driver.quit()
